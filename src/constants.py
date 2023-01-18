@@ -1,3 +1,28 @@
+"""
+Constantes utilisées par le projet. Importer ce module pour utiliser dans le projet.
+"""
+# etapes dans le fichier config
+GENERAL = "general"
+EXTRACTION = "extraction"
+CLEANING = "cleaning"
+FEATURE = "feature_engineering"
+SELECTION = "selection"
+CLUSTERING = "clustering"
+
+# les étapes valides dans le fichier log
+ACCEPTED_STEPS = [EXTRACTION, CLEANING, FEATURE, SELECTION,
+                  CLUSTERING]
+
+# Valid steps for the output
+ACCEPTED_OUTPUT_STEPS = [EXTRACTION, CLEANING, FEATURE,
+                         CLUSTERING]
+
+
+
+
+
+
+
 # DATA
 ## raw data
 RAW_DATA = "data/raw"
