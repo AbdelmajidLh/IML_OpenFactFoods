@@ -3,6 +3,7 @@ Ce projet vise à améliorer la santé publique des populations via le choix des
 
 
 ## Source des données - OpenFoodFacts (https://world.openfoodfacts.org/data)
-Les données sont compressées et au format csv (GZIP format). Il s'agit de données structurées opensource (données publiques).
-Le lien pour télécharger les données (Un module python permetra de telecharger les données automatiquement):
+La base de données Open Food Facts est disponible sous licence Open Database Licence (Odbl). <br>
+Les données sont compressées et au format csv (GZIP format). Il s'agit de données structurées et opensource (données publiques). <br>
+Le lien pour télécharger les données (Un module python permetra de telecharger les données automatiquement): <br>
 https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz

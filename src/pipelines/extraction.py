@@ -5,11 +5,49 @@ import urllib.request
 import pandas as pd
 
 RAW_DATA = 'data/raw/'
+ARCHIVE_DATA = 'data/archives'
 
+# class pour telecharger et decompresser un fichier gz a partir d'un lien
+#import urllib.request
+import gzip
+#import os
+
+class GZFileDownloader:
+    """
+    Telecharger un fichier GZ et le decompresser
+    Args : 
+        url : le lien gz
+        save_path [optional] : dossier pour les archives
+        uncompressed_path [optional] : dossier pour les fichiers decompresses
+    """
+    def __init__(self, url, save_path=ARCHIVE_DATA, uncompressed_path=RAW_DATA):
+        self.url = url
+        self.save_path = save_path
+        self.uncompressed_path = uncompressed_path
+        self.file_name = os.path.basename(url)
+
+    def download_and_uncompress(self):
+        # Download the file from the URL
+        urllib.request.urlretrieve(self.url, os.path.join(self.save_path, self.file_name))
+        # Uncompress the file
+        with gzip.open(os.path.join(self.save_path, self.file_name), 'rb') as f_in:
+            with open(os.path.join(self.uncompressed_path, self.file_name.split(".")[0]), 'wb') as f_out:
+                f_out.write(f_in.read())
+        print(f"{self.file_name} successfully downloaded and uncompressed!")
+
+
+# class pour telecharger, decompresser et importer un fichier zip (au format csv)
 class ExtractionPipeline:
+    """
+    Class pour telecharger les fichiers zip a partir d'un lien, les decompresser puis importer le fichier csv
+    Args :
+        url : lien csv.zip
+        file_name [optional]
+    """
     def __init__(self):
         self.url = ""
         self.file_name = ""
+        self.csvFile=""
 
     def download_csv(self, link):
         self.url = link
@@ -31,4 +69,14 @@ class ExtractionPipeline:
                 break
         os.remove(f"{raw_data_path}/{self.file_name}")
         df = pd.read_csv(f"{raw_data_path}/{csv_file}", low_memory=False)
+
+    def load_csv(self, csvFile):
+        self.raw_data_path = RAW_DATA
+        self.file_name = csvFile
+        mylist = []
+        for chunk in  pd.read_csv(f"{self.raw_data_path}{self.file_name}.csv", \
+            low_memory=False, sep='\t', chunksize=20000):
+            mylist.append(chunk)
+        df = pd.concat(mylist, axis= 0)
+        del mylist
         return df
