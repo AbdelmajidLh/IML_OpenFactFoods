@@ -5,6 +5,7 @@ from logger_setings import *
 from pipelines.extraction import ExtractionPipeline
 #from pipelines.cleaning import CleaningPipeline
 from cleaning.data_info import ExploratoryAnalysis
+from pipelines.cleaning import DataCleaning
 from constants import (
     zip_url_file, url
 )
@@ -26,3 +27,6 @@ ExploratoryAnalysis(df_raw).run()
 
 # data cleaning
 logger.debug("Start data cleaning ")
+df_clean = DataCleaning(df_raw).clean_data()
+
+print(type(df_clean))
