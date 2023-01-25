@@ -25,8 +25,9 @@ ACCEPTED_OUTPUT_STEPS = [EXTRACTION, CLEANING, FEATURE,
 
 # DATA
 ## raw data
-RAW_DATA = "data/raw"
+RAW_DATA = "data/raw/"
 CSV_file = "en.openfoodfacts.org.products-df5.csv"
+ARCHIVE_DATA = 'data/archives'
 
 ## from url
 url = 'https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz'

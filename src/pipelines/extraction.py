@@ -3,9 +3,14 @@ import zipfile
 import urllib.parse
 import urllib.request
 import pandas as pd
+from typing import Optional
 
-RAW_DATA = 'data/raw/'
-ARCHIVE_DATA = 'data/archives'
+
+from constants import (
+    zip_url_file, url, RAW_DATA,
+    ARCHIVE_DATA
+)
+
 
 # class pour telecharger et decompresser un fichier gz a partir d'un lien
 #import urllib.request

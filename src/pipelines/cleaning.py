@@ -1,31 +1,41 @@
 import pandas as pd
+from typing import Optional
 from constants import (
-    KEEP_COLS, DROP_NA_COLS, NEW_COLNAMES, DATE_COLS
+    KEEP_COLS, 
+    DROP_NA_COLS, 
+    NEW_COLNAMES, 
+    DATE_COLS
 )
 
-class DataCleaning:
-    def __init__(self, df):
+class DataCleaningPipeline:
+    def __init__(self, df) -> pd.DataFrame:
         self.df = df
         self.KEEP_COLUMNS = KEEP_COLS
         self.DROP_COLS = DROP_NA_COLS
         self.NEW_COLNAMES = NEW_COLNAMES
         self.DATE_COLS = DATE_COLS
     
-    def select_columns(self):
+    def select_columns(self) -> pd.DataFrame:
         self.df = self.df[self.KEEP_COLUMNS]
+        print('select column df shape :', self.df.shape)
         return self.df
     
-    def drop_missing_values(self):
+    def drop_missing_values(self) -> pd.DataFrame:
         self.df = self.df.dropna(subset=self.DROP_COLS)
+        print('drop_missing_values df shape :', self.df.shape)
         return self.df
     
-    def rename_columns(self):
+    def rename_columns(self) -> pd.DataFrame:
         self.df = self.df.rename(columns=self.NEW_COLNAMES)
+        print('rename_columns df shape :', self.df.shape)
+        print('new columns', self.df.columns)
         return self.df
     
-    def convert_date_columns(self):
+    def convert_date_columns(self) -> pd.DataFrame:
         for col in self.DATE_COLS:
             self.df[col] = pd.to_datetime(self.df[col])
+            print('convert_date_columns df shape :', self.df.shape)
+
         return self.df
     
     def clean_data(self):
@@ -33,6 +43,8 @@ class DataCleaning:
         self.drop_missing_values()
         self.rename_columns()
         self.convert_date_columns()
+    
+        return self.df
 
 
 
