@@ -4,20 +4,18 @@ import urllib.parse
 import urllib.request
 import pandas as pd
 from typing import Optional
-
+from logger_setings import *
+import gzip
 
 from constants import (
     zip_url_file, url, RAW_DATA,
     ARCHIVE_DATA
 )
 
-
 # class pour telecharger et decompresser un fichier gz a partir d'un lien
 #import urllib.request
-import gzip
-#import os
 
-class GZFileDownloader:
+class GZFileDownloaderPipeline:
     """
     Telecharger un fichier GZ et le decompresser
     Args : 
@@ -25,20 +23,28 @@ class GZFileDownloader:
         save_path [optional] : dossier pour les archives
         uncompressed_path [optional] : dossier pour les fichiers decompresses
     """
-    def __init__(self, url, save_path=ARCHIVE_DATA, uncompressed_path=RAW_DATA):
+    def __init__(self, url, save_path, uncompressed_path):
         self.url = url
         self.save_path = save_path
         self.uncompressed_path = uncompressed_path
-        self.file_name = os.path.basename(url)
+        self.file_name = os.path.basename(self.url)
 
     def download_and_uncompress(self):
-        # Download the file from the URL
-        urllib.request.urlretrieve(self.url, os.path.join(self.save_path, self.file_name))
-        # Uncompress the file
-        with gzip.open(os.path.join(self.save_path, self.file_name), 'rb') as f_in:
-            with open(os.path.join(self.uncompressed_path, self.file_name.split(".")[0]), 'wb') as f_out:
-                f_out.write(f_in.read())
-        print(f"{self.file_name} successfully downloaded and uncompressed!")
+        logger.debug("Downloading GZ file (big file ... please wait)")
+        """Download the file if it does not exist"""
+        if os.path.exists(f"{self.save_path}{self.file_name.split('.gz')[0]}"):
+            print('File already exists')
+        else:
+            # Download the file from the URL
+            urllib.request.urlretrieve(self.url, os.path.join(self.save_path, self.file_name))
+            # Uncompress the file
+            with gzip.open(os.path.join(self.save_path, self.file_name), 'rb') as f_in:
+                with open(os.path.join(self.uncompressed_path, self.file_name.split(".gz")[0]), 'wb') as f_out:
+                    f_out.write(f_in.read())
+            os.remove(f"{self.save_path}{self.file_name}")
+            print(f"{self.file_name} successfully downloaded and uncompressed!")
+            logger.debug("successfully downloaded and uncompressed!")
+
 
 
 # class pour telecharger, decompresser et importer un fichier zip (au format csv)
