@@ -20,6 +20,7 @@ Pour executer ces scripts python correctement, il est necessaire d'avoir ces ele
 
 ### Executer le code
 #### Windows
-``
+```
+cd IML_OpenFactFoods
 python src/workflow.py
-``
+```
