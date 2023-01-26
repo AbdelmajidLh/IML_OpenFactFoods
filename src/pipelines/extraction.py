@@ -6,6 +6,7 @@ import pandas as pd
 from typing import Optional
 from logger_setings import *
 import gzip
+import time
 
 from constants import (
     zip_url_file, url, RAW_DATA,
@@ -61,6 +62,7 @@ class ExtractionPipeline:
         self.csvFile=""
 
     def download_csv(self, link):
+        logger.debug("Downloading zip file (big file ... please wait)")
         self.url = link
         self.file_name = link.split("/")[-1]
         raw_data_path = RAW_DATA
@@ -82,6 +84,9 @@ class ExtractionPipeline:
         df = pd.read_csv(f"{raw_data_path}/{csv_file}", low_memory=False)
 
     def load_csv(self, csvFile):
+        logger.debug("importing file ... please wait!")
+        start_time = time.time()
+        logger.debug("Import file ...")
         self.raw_data_path = RAW_DATA
         self.file_name = csvFile
         mylist = []
@@ -90,4 +95,7 @@ class ExtractionPipeline:
             mylist.append(chunk)
         df = pd.concat(mylist, axis= 0)
         del mylist
+        end_time = time.time()
+        total_time = end_time - start_time
+        print("Total time of execution :", total_time, "seconds")
         return df

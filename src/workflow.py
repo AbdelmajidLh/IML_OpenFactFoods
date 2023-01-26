@@ -13,10 +13,9 @@ from constants import (
 # download gz data
 GZFileDownloaderPipeline(url=url, save_path=RAW_DATA, uncompressed_path=RAW_DATA).download_and_uncompress()
 
-
 # import csv file
-# logger.debug("Extract data ...")
-# df_raw = ExtractionPipeline().load_csv("en.openfoodfacts.org.products")
+df_raw = ExtractionPipeline().load_csv("en.openfoodfacts.org.products")
+print(df_raw.head())
 
 # data exploration
 # logger.debug("Start data exploration ")
